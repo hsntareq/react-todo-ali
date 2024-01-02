@@ -1,6 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import './TodoMain.css';
+import NoTodos from './NoTodos';
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
 
 export default function TodoMain() {
 	const [todos, setTodos] = useState([
@@ -24,26 +27,16 @@ export default function TodoMain() {
 		},
 	]);
 
-	const [todoInput, setTodoInput] = useState('');
 	const [todoId, setTodoId] = useState(4);
-	function handleInput(event){
-		setTodoInput(event.target.value);
-	}
-	function addTodo(e) {
-		e.preventDefault();
-		if (todoInput.trim().length === 0) {
-			return;
-		}
+	function addTodo(todo) {
 		setTodos([
 			...todos,
 			{
 				id: todoId,
-				title: todoInput,
+				title: todo,
 				isCompleted: false,
 			},
 		]);
-
-		setTodoInput('');
 		setTodoId(prevTodoId => prevTodoId + 1);
 	}
 	function deleteTodo (id) {
@@ -90,53 +83,12 @@ export default function TodoMain() {
 	return (
 	  <div>
 		<div className="container">
-		  <form action='#' onSubmit={addTodo} className="input-field">
-			<input
-			type="text"
-			value={todoInput}
-			onChange={handleInput}
-			placeholder="Enter your new todo"/>
-		  </form>
-
-		  <ul className="todoLists">
-			{todos.map((todo,index) => (
-				<li key={todo.id} className="list pending">
-					<input type="checkbox" onChange={() => completeTodo(todo.id)} checked={todo.isCompleted ? true : false }/>
-					<span>{todo.id}</span>
-
-					{!todo.isEditing ?(
-						<span
-							onDoubleClick={() => markAsEditing(todo.id)}
-							className="task">
-								{todo.title}
-							</span>
-							) : (
-							<input
-							type="text"
-							className="edit-input"
-							defaultValue={todo.title}
-							onBlur={(event) => updateTodo(event,todo.id)}
-							onKeyDown={(event) => {
-								if(event.key === 'Enter'){
-									updateTodo(event,todo.id);
-								}else if(event.key === 'Escape'){
-									cancelEditing(event,todo.id);
-								}
-							}}
-							/> )
-					}
-
-					<span className="task">{todo.isCompleted}</span>
-					<button onClick={() => deleteTodo(todo.id)} className="uil uil-trash">icon</button>
-				</li>
-			))}
-		  </ul>
-
-		  <div className="pending-tasks">
-			<span>You have <span className="pending-num"> no </span> tasks pending.</span>
-			<button className="clear-button">Clear All</button>
-			<button className="clear-button">Check All</button>
-		  </div>
+			<TodoForm addTodo={addTodo}/>
+			{todos.length > 0 ? (
+			<TodoList todos={todos} completeTodo={completeTodo} updateTodo={updateTodo} markAsEditing={markAsEditing} cancelEditing={cancelEditing} deleteTodo={deleteTodo}/>
+			) : (
+				<NoTodos/>
+			)}
 		</div>
 	  </div>
 	);
