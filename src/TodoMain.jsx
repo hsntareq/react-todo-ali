@@ -1,9 +1,11 @@
-import React from 'react';
-import { useState } from 'react';
+import React,{ useState } from 'react';
 import './TodoMain.css';
 import NoTodos from './NoTodos';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
+import TodoClearComplete from './TodoClearCompleted';
+import TodoCheckAll from './TodoCheckAll';
+import TodoUncheckAll from './TodoUncheckAll';
 
 export default function TodoMain() {
 	const [todos, setTodos] = useState([
@@ -80,15 +82,48 @@ export default function TodoMain() {
 			return todo;
 		}));
 	}
+	function remainingItems(){
+		return todos.filter(todo => !todo.isCompleted).length;
+	}
+	function clearCompleted(){
+		setTodos([...todos].filter(todo => !todo.isCompleted));
+	}
+	function checkAll(){
+		const allComplete = todos.map(todo => {
+			todo.isCompleted = true;
+			return todo;
+		});
+		setTodos(allComplete);
+	}
+	function uncheckAll(){
+		const allComplete = todos.map(todo => {
+			todo.isCompleted = false;
+			return todo;
+		});
+		setTodos(allComplete);
+	}
+	function todoFiltered(filter){
+		if(filter === 'all'){
+			return todos;
+		}else if(filter === 'active'){
+			return todos.filter(todo => !todo.isCompleted);
+		}else if(filter === 'completed'){
+			return todos.filter(todo => todo.isCompleted);
+		}
+	}
 	return (
 	  <div>
 		<div className="container">
 			<TodoForm addTodo={addTodo}/>
+
 			{todos.length > 0 ? (
-			<TodoList todos={todos} completeTodo={completeTodo} updateTodo={updateTodo} markAsEditing={markAsEditing} cancelEditing={cancelEditing} deleteTodo={deleteTodo}/>
+			<TodoList todos={todos} completeTodo={completeTodo} updateTodo={updateTodo} markAsEditing={markAsEditing} cancelEditing={cancelEditing} deleteTodo={deleteTodo} remainingItems={remainingItems} clearCompleted={clearCompleted} todoFiltered={todoFiltered}/>
 			) : (
 				<NoTodos/>
 			)}
+			<TodoCheckAll checkAll={checkAll}/>
+			<TodoUncheckAll uncheckAll={uncheckAll}/>
+			<TodoClearComplete clearCompleted={clearCompleted}/>
 		</div>
 	  </div>
 	);
