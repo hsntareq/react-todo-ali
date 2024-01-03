@@ -8,8 +8,6 @@ body {
   background-color: #e3f2fd;
 }
 
-/* For Scrollbar */
-
 /* width */
 ::-webkit-scrollbar {
   width: 6px;
@@ -135,11 +133,17 @@ input::-webkit-scrollbar {
   font-size: 14px;
   border-radius: 4px;
   cursor: pointer;
-  pointer-events: none;
   white-space: nowrap;
 }
 .clear-button:hover {
   background-color: #0e4bf1;
+}
+.flex-buttons{
+	display: flex;
+	align-items: center;
+	gap:10px;
+	margin:10px auto;
+	width: 100%;
 }
 @media screen and (max-width: 350px) {
   .container {

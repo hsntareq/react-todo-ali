@@ -1,9 +1,8 @@
 import React,{useState} from 'react';
 import PropsType from 'prop-types';
 import TodoRemainingItems from './TodoRemainingItems';
-// import TodoClearCompleted from './TodoClearCompleted';
-// import TodoCheckAll from './TodoCheckAll';
 import TodoFilters from './TodoFilters';
+import useToggle from '../hooks/useToggle';
 
 TodoList.propTypes = {
 	todos: PropsType.array,
@@ -18,6 +17,8 @@ TodoList.propTypes = {
 }
 
 export default function TodoList(props) {
+	const [oneFeatureVisible,setOneFeatureVisible] = useToggle();
+	const [twoFeatureVisible,setTwoFeatureVisible] = useToggle();
 	const [filter,setFilter] = useState('all');
 	return (
 		<div>
@@ -51,18 +52,23 @@ export default function TodoList(props) {
 						}
 
 						<span className="task">{todo.isCompleted}</span>
-						<button onClick={() => props.deleteTodo(todo.id)} className="uil uil-trash">icon</button>
+						<button onClick={() => props.deleteTodo(todo.id)} className="delete-button">icon</button>
 					</li>
 				))}
 			</ul>
 
 			<div className="pending-tasks">
-				<TodoRemainingItems remainingItems={props.remainingItems} />
-
-				{/* <TodoClearCompleted clearCompleted={props.clearCompleted}/> */}
-				{/* {<TodoCheckAll checkAll={props.checkAll()}/>} */}
-
+				<div className='flex-buttons'>
+					<button onClick={setOneFeatureVisible}>Toggle One</button>
+					<button onClick={setTwoFeatureVisible}>Toggle Two</button>
+				</div>
+				{oneFeatureVisible &&
+					<TodoRemainingItems remainingItems={props.remainingItems} />
+				}
+				
+				{twoFeatureVisible &&
 				<TodoFilters todoFiltered={props.todoFiltered} filter={filter} setFilter={setFilter}/>
+				}
 			</div>
 			</>
 		</div>

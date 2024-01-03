@@ -3,7 +3,7 @@ import React from 'react'
 export default function TodoFilters(props) {
   return (
 	<div>
-		<div style={{display: 'flex',alignItems:'center',gap:'10px',justifyContent:'center',marginTop:'20px'}}>
+		<div className='flex-buttons'>
 			<button className="filter-btn" onClick={() => {
 				props.todoFiltered('all');
 				props.setFilter('all');
