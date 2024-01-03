@@ -5,8 +5,8 @@ export default function TodoCheckAll(props) {
 	<div>
 		<div className='flex-buttons'>
 			<button onClick={() => props.checkAll()}>Check All</button>
-			<button onClick={() => props.uncheckAll()} className="clear-button">Unheck All</button>
-			<button onClick={() => props.clearCompleted()} className="clear-button">Clear All Completed Task</button>
+			<button onClick={() => props.uncheckAll()}>Unheck All</button>
+			<button onClick={() => props.clearAllTodos()}>Clear All</button>
 		</div>
 	</div>
   )

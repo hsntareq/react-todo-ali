@@ -6,7 +6,6 @@ import './TodoMain.css';
 import NoTodos from './components/NoTodos';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
-import TodoCheck from './components/TodoCheck';
 
 import useLocalStorage from './hooks/useLocalStorage';
 
@@ -58,7 +57,7 @@ export default function App() {
 			return todo;
 		}));
 	}
-	function cancelEditing(event,id){
+	function cancelEditing(id){
 		setTodos([...todos].map(todo => {
 			if (todo.id === id) {
 				todo.isEditing = false;
@@ -68,9 +67,6 @@ export default function App() {
 	}
 	function remainingItems(){
 		return todos.filter(todo => !todo.isCompleted).length;
-	}
-	function clearCompleted(){
-		setTodos([...todos].filter(todo => !todo.isCompleted));
 	}
 	function checkAll(){
 		const allComplete = todos.map(todo => {
@@ -95,6 +91,10 @@ export default function App() {
 			return todos.filter(todo => todo.isCompleted);
 		}
 	}
+	function clearAllTodos(){
+		setTodos([]);
+		localStorage.setItem('idForTodo',1);
+	}
 	return (
 	  <div>
 		<div className="App">
@@ -102,11 +102,10 @@ export default function App() {
 			<TodoForm addTodo={addTodo}/>
 
 			{todos.length > 0 ? (
-			<TodoList todos={todos} completeTodo={completeTodo} updateTodo={updateTodo} markAsEditing={markAsEditing} cancelEditing={cancelEditing} deleteTodo={deleteTodo} remainingItems={remainingItems} clearCompleted={clearCompleted} todoFiltered={todoFiltered}/>
+			<TodoList todos={todos} completeTodo={completeTodo} updateTodo={updateTodo} markAsEditing={markAsEditing} cancelEditing={cancelEditing} deleteTodo={deleteTodo} remainingItems={remainingItems} todoFiltered={todoFiltered} checkAll={checkAll} uncheckAll={uncheckAll} clearAllTodos={clearAllTodos}/>
 			) : (
 				<NoTodos/>
 			)}
-			<TodoCheck checkAll={checkAll} uncheckAll={uncheckAll} clearCompleted={clearCompleted}/>
 		</div>
 		</div>
 	  </div>

@@ -3,6 +3,7 @@ import PropsType from 'prop-types';
 import TodoRemainingItems from './TodoRemainingItems';
 import TodoFilters from './TodoFilters';
 import useToggle from '../hooks/useToggle';
+import TodoCheck from './TodoCheck';
 
 TodoList.propTypes = {
 	todos: PropsType.array,
@@ -56,18 +57,20 @@ export default function TodoList(props) {
 					</li>
 				))}
 			</ul>
-
-			<div className="pending-tasks">
-				<div className='flex-buttons'>
+			<div className='flex-buttons'>
 					<button onClick={setOneFeatureVisible}>Toggle One</button>
 					<button onClick={setTwoFeatureVisible}>Toggle Two</button>
 				</div>
+			<div>
 				{oneFeatureVisible &&
 					<TodoRemainingItems remainingItems={props.remainingItems} />
 				}
-				
+
 				{twoFeatureVisible &&
-				<TodoFilters todoFiltered={props.todoFiltered} filter={filter} setFilter={setFilter}/>
+				<>
+					<TodoFilters todoFiltered={props.todoFiltered} filter={filter} setFilter={setFilter}/>
+					<TodoCheck checkAll={props.checkAll} uncheckAll={props.uncheckAll} clearCompleted={props.clearCompleted} clearAllTodos={props.clearAllTodos}/>
+				</>
 				}
 			</div>
 			</>

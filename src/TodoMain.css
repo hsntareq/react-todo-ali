@@ -145,6 +145,17 @@ input::-webkit-scrollbar {
 	margin:10px auto;
 	width: 100%;
 }
+.flex-buttons button{
+	padding: 6px 12px;
+	outline: none;
+	border: none;
+	background: #4070f4;
+	color: #fff;
+	font-size: 14px;
+	border-radius: 4px;
+	cursor: pointer;
+	white-space: nowrap;
+}
 @media screen and (max-width: 350px) {
   .container {
     padding: 25px 10px;

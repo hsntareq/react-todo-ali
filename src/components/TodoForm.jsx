@@ -20,13 +20,14 @@ export default function TodoForm(props) {
 	}
 	return (
 	<div>
+		<h1 style={{marginBottom:'20px'}}>Todo List</h1>
 		<form action='#' onSubmit={handleSubmit} className="input-field">
-				<input
-				type="text"
-				value={todoInput}
-				onChange={handleInput}
-				placeholder="Enter your new todo"/>
-			</form>
+			<input
+			type="text"
+			value={todoInput}
+			onChange={handleInput}
+			placeholder="Enter your new todo"/>
+		</form>
 	</div>
 	)
 }
