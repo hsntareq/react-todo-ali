@@ -1,22 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { TodosContext } from '../context/TodosContext';
 
 export default function TodoFilters(props) {
+	const {setFilter,todoFiltered} = useContext(TodosContext);
   return (
 	<div>
 		<div className='flex-buttons'>
 			<button className="filter-btn" onClick={() => {
-				props.todoFiltered('all');
-				props.setFilter('all');
+				setFilter('all');
+				todoFiltered();
 			}}>All</button>
 
 			<button className="filter-btn" onClick={() => {
-				props.todoFiltered('active');
-				props.setFilter('active');
+				setFilter('active');
+				todoFiltered();
 			}} >Active</button>
 
 			<button className="filter-btn" onClick={() => {
-				props.todoFiltered('completed');
-				props.setFilter('completed');
+				setFilter('completed');
+				todoFiltered();
 			}}>Completed</button>
 		</div>
 	</div>

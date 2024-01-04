@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './App.css';
 import './TodoMain.css';
@@ -8,81 +8,13 @@ import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 
 import useLocalStorage from './hooks/useLocalStorage';
+import { TodosContext } from './context/TodosContext';
 
 export default function App() {
 	const [todos, setTodos] = useLocalStorage('todos',[]);
-	const [todoId, setTodoId] = useLocalStorage('idForTodo',1);
-
-	function addTodo(todo) {
-		setTodos([
-			...todos,
-			{
-				id: todoId,
-				title: todo,
-				isCompleted: false,
-			},
-		]);
-		setTodoId(prevTodoId => prevTodoId + 1);
-	}
-	function deleteTodo (id) {
-		setTodos([...todos].filter(todo => todo.id !== id));
-	}
-	function completeTodo(id){
-		setTodos([...todos].map(todo => {
-			if (todo.id === id) {
-				todo.isCompleted = !todo.isCompleted;
-			}
-			return todo;
-		}));
-	}
-	function markAsEditing(id){
-		setTodos([...todos].map(todo => {
-			if (todo.id === id) {
-				todo.isEditing = true;
-			}
-			return todo;
-		}));
-	}
-	function updateTodo(event,id){
-		setTodos([...todos].map(todo => {
-			if (todo.id === id) {
-				if(event.target.value.trim().length === 0){
-					todo.isEditing = false;
-					return todo;
-				}
-
-				todo.title = event.target.value;
-				todo.isEditing = false;
-			}
-			return todo;
-		}));
-	}
-	function cancelEditing(id){
-		setTodos([...todos].map(todo => {
-			if (todo.id === id) {
-				todo.isEditing = false;
-			}
-			return todo;
-		}));
-	}
-	function remainingItems(){
-		return todos.filter(todo => !todo.isCompleted).length;
-	}
-	function checkAll(){
-		const allComplete = todos.map(todo => {
-			todo.isCompleted = true;
-			return todo;
-		});
-		setTodos(allComplete);
-	}
-	function uncheckAll(){
-		const allComplete = todos.map(todo => {
-			todo.isCompleted = false;
-			return todo;
-		});
-		setTodos(allComplete);
-	}
-	function todoFiltered(filter){
+	const [todoId, setTodoId] = useLocalStorage('todoId',1);
+	const [filter,setFilter] = useState('all');
+	function todoFiltered(){
 		if(filter === 'all'){
 			return todos;
 		}else if(filter === 'active'){
@@ -91,23 +23,22 @@ export default function App() {
 			return todos.filter(todo => todo.isCompleted);
 		}
 	}
-	function clearAllTodos(){
-		setTodos([]);
-		localStorage.setItem('idForTodo',1);
-	}
-	return (
-	  <div>
-		<div className="App">
-		<div className="container">
-			<TodoForm addTodo={addTodo}/>
 
-			{todos.length > 0 ? (
-			<TodoList todos={todos} completeTodo={completeTodo} updateTodo={updateTodo} markAsEditing={markAsEditing} cancelEditing={cancelEditing} deleteTodo={deleteTodo} remainingItems={remainingItems} todoFiltered={todoFiltered} checkAll={checkAll} uncheckAll={uncheckAll} clearAllTodos={clearAllTodos}/>
-			) : (
-				<NoTodos/>
-			)}
+	return (
+		<TodosContext.Provider value={{todos,setTodos,todoId,setTodoId,filter,setFilter,todoFiltered}}>
+		<div>
+			<div className="App">
+				<div className="container">
+					<TodoForm/>
+
+					{todos.length > 0 ? (
+					<TodoList/>
+					) : (
+						<NoTodos/>
+					)}
+				</div>
+			</div>
 		</div>
-		</div>
-	  </div>
+	  </TodosContext.Provider>
 	);
 }
