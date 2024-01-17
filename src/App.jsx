@@ -26,19 +26,15 @@ export default function App() {
 
 	return (
 		<TodosContext.Provider value={{todos,setTodos,todoId,setTodoId,filter,setFilter,todoFiltered}}>
-		<div>
-			<div className="App">
-				<div className="container">
-					<TodoForm/>
+			<div className="container">
+				<TodoForm/>
 
-					{todos.length > 0 ? (
-					<TodoList/>
-					) : (
-						<NoTodos/>
-					)}
-				</div>
+				{todos.length > 0 ? (
+				<TodoList/>
+				) : (
+					<NoTodos/>
+				)}
 			</div>
-		</div>
 	  </TodosContext.Provider>
 	);
 }

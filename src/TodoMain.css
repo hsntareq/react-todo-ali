@@ -161,3 +161,30 @@ input::-webkit-scrollbar {
     padding: 25px 10px;
   }
 }
+nav{
+	padding: 10px 20px;
+	background-color: #4070f4;
+}
+nav ul{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: auto;
+	list-style: none;
+}
+nav ul li a{
+background-color: transparent;
+text-decoration: none;
+color:white;
+font-weight:bold;
+padding: 10px;
+}
+nav ul li:not(:first-child){
+	margin-left: 20px;
+}
+.active{
+	font-weight: normal;
+	text-decoration: none;
+	background-color: white;
+	color: #4070f4;
+}
